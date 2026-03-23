@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naman Garg | Software Engineer Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --secondary: #22c55e;
+            --bg-dark: #020617;
+            --card-bg: rgba(30, 41, 59, 0.5);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 20px;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar h2 { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            margin-bottom: 40px; 
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            text-align: left;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar button:hover, .sidebar button.active {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        /* Main Content */
+        .main { margin-left: 260px; padding: 60px 80px; max-width: 1200px; }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+
+        /* Typography & Sections */
+        h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -1px; }
+        h3 { color: var(--primary); margin-bottom: 10px; font-family: 'Fira Code', monospace; }
+        .subtitle { font-size: 1.2rem; color: var(--text-dim); max-width: 600px; margin-bottom: 2rem; }
+        
+        section { display: none; opacity: 0; transform: translateY(20px); transition: 0.5s ease; }
+        section.active { display: block; opacity: 1; transform: translateY(0); }
+
+        /* Feature Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        ul { list-style: none; margin-top: 10px; }
+        ul li { margin-bottom: 8px; font-size: 0.9rem; color: var(--text-dim); position: relative; padding-left: 20px; }
+        ul li::before { content: "▹"; position: absolute; left: 0; color: var(--primary); }
+
+        .tag { display: inline-block; background: rgba(56, 189, 248, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; margin-right: 5px; margin-top: 10px; }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main { margin-left: 0; padding: 30px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="sidebar">
+    <h2>Naman.dev</h2>
+    <button onclick="showTab('home',this)" class="active">01. Home</button>
+    <button onclick="showTab('about',this)">02. Profile</button>
+    <button onclick="showTab('skills',this)">03. Expertise</button>
+    <button onclick="showTab('projects',this)">04. Projects</button>
+    <button onclick="showTab('education',this)">05. Education</button>
+</div>
+
+<div class="main">
+
+    <section id="home" class="active">
+        <h3 style="font-size: 1rem;">Hi, my name is</h3>
+        <h1>Naman Garg.</h1>
+        <p class="subtitle" id="typing"></p>
+        <p class="subtitle">I specialize in designing and building robust backend architectures and solving complex algorithmic challenges.</p>
+    </section>
+
+    <section id="about">
+        <h1>About Me</h1>
+        <p class="subtitle">I am a Computer Science Engineer with a deep interest in how systems scale. My focus lies at the intersection of <b>Data Structures</b> and <b>Modern Web Infrastructure</b>.</p>
+        <div class="card" style="max-width: 700px;">
+            <p>I thrive on creating efficient solutions for real-world problems. Whether it's optimizing search algorithms or managing complex database relations, I enjoy the process of turning a concept into a high-performance system.</p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h1>Technical Expertise</h1>
+        <div class="grid">
+            <div class="card">
+                <h3>Languages</h3>
+                <p>Fluent in building logic with:</p>
+                <div class="tag">C++</div><div class="tag">Java</div><div class="tag">Python</div><div class="tag">JavaScript (ES6+)</div>
+            </div>
+            <div class="card">
+                <h3>Backend & Data</h3>
+                <ul>
+                    <li>Database Management (MySQL, MongoDB)</li>
+                    <li>Object-Oriented Programming (OOP)</li>
+                    <li>RESTful API Design</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Tools & Workflow</h3>
+                <ul>
+                    <li>Version Control (Git/GitHub)</li>
+                    <li>Linux Environments</li>
+                    <li>VS Code & Productivity Suites</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h1>Featured Work</h1>
+        <div class="grid">
+            <div class="card">
+                <h3>Covid Scheduler</h3>
+                <p>Developed a high-efficiency priority booking system for medical resources.</p>
+                <ul>
+                    <li>Implemented <b>Max Heap</b> logic to prioritize critical patients.</li>
+                    <li>Reduced wait-time calculation complexity to $O(\log n)$.</li>
+                </ul>
+                <div class="tag">C++</div><div class="tag">DSA</div>
+            </div>
+            <div class="card">
+                <h3>Inventory Management</h3>
+                <p>Full-scale stock tracking application for retail environments.</p>
+                <ul>
+                    <li>Modular design using Advanced OOP principles.</li>
+                    <li>Integrated real-time search and low-stock alerts.</li>
+                </ul>
+                <div class="tag">Java</div><div class="tag">MySQL</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h1>Education & Metrics</h1>
+        <div class="grid">
+            <div class="card">
+                <h3>B.Tech in CSE</h3>
+                <p>Lovely Professional University</p>
+                <p><b>CGPA: 6.7</b></p>
+                <p>Relevant Coursework: OS, Automata, Computer Networks.</p>
+            </div>
+            <div class="card">
+                <h3>Competitive Coding</h3>
+                <ul>
+                    <li>3★ Gold Badge on HackerRank</li>
+                    <li>250+ Problems solved across platforms</li>
+                    <li>Focused on Greedy Algorithms & Dynamic Programming</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    function showTab(id, btn) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        const activeSection = document.getElementById(id);
+        activeSection.classList.add('active');
+        
+        document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    // Modern Typing Effect
+    const text = "I build scalable systems for the modern web.";
+    let i = 0;
+    function type() {
+        if (i < text.length) {
+            document.getElementById('typing').innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, 50);
+        }
+    }
+    window.onload = type;
+
+    // Particle Background
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particles = [];
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2;
+            this.speedX = Math.random() * 0.5 - 0.25;
+            this.speedY = Math.random() * 0.5 - 0.25;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x > canvas.width) this.x = 0;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.y > canvas.height) this.y = 0;
+            if (this.y < 0) this.y = canvas.height;
+        }
+        draw() {
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function init() {
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+    }
+    init();
+    animate();
+</script>
+
+</body>
+</html>
